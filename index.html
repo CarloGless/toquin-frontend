@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>TOQUIN Uploader</title>
+</head>
+<body>
+    <h1>¡Hola Carlo! Tu frontend TOQUIN está listo.</h1>
+    <p>Sube tu canción y elige el tipo de arreglo:</p>
+
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="file" required><br><br>
+        <label for="arrangementType">Tipo de arreglo:</label>
+        <select name="arrangementType" required>
+            <option value="pop">Pop</option>
+            <option value="rock">Rock</option>
+            <option value="electronic">Electrónico</option>
+        </select><br><br>
+        <button type="submit">Enviar</button>
+    </form>
+
+    <div id="response"></div>
+
+    <script>
+    document.getElementById('uploadForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const formData = new FormData(this);
+
+        const response = await fetch('https://toquin-backend-v2.onrender.com/upload', {
+            method: 'POST',
+            body: formData
+        });
+
+        const result = await response.json();
+        document.getElementById('response').innerText = JSON.stringify(result, null, 2);
+    });
+    </script>
+</body>
+</html>
